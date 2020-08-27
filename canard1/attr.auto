@@ -1,0 +1,37 @@
+
+#===================
+# AUTO LuoSlow_f/attr
+#==================-
+
+pgm = "attr"
+print "\n canard 1 is started"
+
+r2 = run(e=pgm,c=pgm,ICP=['va0','da0','fa0','Ta'],NBC=7,UZR={'va0': 17.7065})
+
+r = run(r2('UZ1'),ICP=['Ta','va1','va0','fa0','xa0'],UZR={'va1':-35})
+
+start3 = load(r('UZ1'),ICP=['xa0','Ta','da0','fa0','fa1','va1','da1'], UZR = {'da1': 0.243611})
+
+r3 = run(start3, DS='-',NMX=2000)
+
+r4 = run(r3('UZ1'),e=pgm+"1",ICP=['C','xa0','xa1','Ta'],DS='-',UZSTOP={'C':[0,1]})
+sv(r4,pgm)
+cd("..")
+ap(r4,'canards')
+cd("canard1")
+
+#loadbd(pgm)(18).writeRawFilename('canard_1')
+
+print "\n***Clean the directory***"
+cl()
+
+#plot('attr',type="solution",use_labels=0,label='all',azimuth=70,elevation=20,
+#       minx=0,maxx=1.0,miny=0,maxy=0.16,minz=-20,maxz=-10,
+#       color_list="blue",
+#       solution_x=["f"],solution_y=["x"], solution_z=["v"],
+#       xlabel="$f$",ylabel="$x$",zlabel="$V$", alpha=0.3)
+
+#plot('attr',type="bifurcation",use_labels=0,label='all',
+#       color_list="blue",
+#       bifurcation_x=["fa1"],bifurcation_y=["va1"])
+#wait()
