@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+
+<VectorField Name="Luofixedpoints">
+
+<!--capacitance-->
+<Parameter Name="C"    DefaultValue="1.0"  Description="pF" />
+
+<!--concentrations-->
+<Parameter Name="Ko" DefaultValue="5.4" />
+<Constant Name="Ki" Value="145" />
+<Constant Name="Nao" Value="140" />
+<Constant Name="Nai" Value="18" />
+<Constant Name="PRNaK" Value="0.01833" />
+
+<!--Ideal gas constants-->
+<Constant Name="R" Value="8314.4598" />
+<Constant Name="Kelvin" Value="304.5" />
+<Constant Name="Faraday" Value="95484.56" />
+
+<!--constants-->
+<Constant Name="cda"   Value="0.095" Description="mV" />
+<Constant Name="cdb"   Value="0.07" Description="mV" />
+<Constant Name="cfa"   Value="0.012" Description="mV" />
+<Constant Name="cfb"   Value="0.0065" Description="mV" />
+<Constant Name="cxa"   Value="0.0005" Description="mV" />
+<Constant Name="cxb"   Value="0.0013" Description="mV" />
+<Constant Name="cxi"   Value="2.837" Description="mV" />
+<Constant Name="cK1a"   Value="1.02" Description="mV" />
+<Constant Name="cK1b"   Value="0.49124" Description="mV" />
+
+<!--activation shift-->
+<Constant Name="Vda"   Value="-5.0" Description="mV" />
+<Constant Name="Vdb"   Value="44.0"  Description="mV"  />
+<Constant Name="Vfa"   Value="28.0" Description="mV" />
+<Constant Name="Vfb"   Value="30.0" Description="mV" />
+<Constant Name="Vxa"   Value="50.0" Description="mV" />
+<Constant Name="Vxb"   Value="20.0" Description="mV" />
+<Constant Name="Vxi1"  Value="77.0" Description="mV" />
+<Constant Name="Vxi2"  Value="35.0" Description="mV" />
+
+<!--activation variances-->
+<Constant Name="sda1"   Value="-0.01"  Description="mV"  />
+<Constant Name="sda2"   Value="-0.072"  Description="mV"  />
+<Constant Name="sdb1"   Value="-0.017"  Description="mV"  />
+<Constant Name="sdb2"   Value="0.05"  Description="mV"  />
+
+<Constant Name="sfa1"   Value="-0.008"  Description="mV"  />
+<Constant Name="sfa2"   Value="0.15"  Description="mV"  />
+<Constant Name="sfb1"   Value="-0.02"  Description="mV"  />
+<Constant Name="sfb2"   Value="-0.2"  Description="mV"  />
+
+<Constant Name="sxa1"   Value="0.083"  Description="mV"  />
+<Constant Name="sxa2"   Value="0.057"  Description="mV"  />
+<Constant Name="sxb1"   Value="-0.06"  Description="mV"  />
+<Constant Name="sxb2"   Value="-0.04"  Description="mV"  />
+
+<Constant Name="sxi"    Value="0.04"  Description="mV"  />
+
+<Constant Name="sK1a"   Value="0.2385"  Description="mV"  />
+<Constant Name="sK1b1"  Value="0.08032"  Description="mV"  />
+<Constant Name="sK1b2"  Value="0.06175"  Description="mV"  />
+<Constant Name="sK1b3"  Value="-0.5143"  Description="mV"  />
+
+<Constant Name="sKp"  Value="1.0/5.98"  Description="mV"  />
+
+<!--conductance weights-->
+<Parameter Name="gKw"  DefaultValue="0.282" />
+<Constant Name="gK1w"  Value="0.6047" />
+
+<!--conductances-->
+<Parameter Name="gCa"  DefaultValue="0.09"  Description="nS" />
+<Expression Name="gK"   Formula="gKw*(Ko/5.4)^(1/2)"  Description="nS" />
+<Expression Name="gK1"  Formula="gK1w*(Ko/5.4)^(1/2)"  Description="nS" />
+<Constant Name="gKp"   Value="0.0183"  Description="nS" />
+<Constant Name="gb"    Value="0.03921"  Description="nS" />
+
+<!--Nernsts-->
+<Parameter Name="VCa"  DefaultValue="80.0"  Description="mV"  />
+<Expression Name="VK" Formula="(R*Kelvin/Faraday)*log((Ko+PRNaK*Nao)/(Ki+PRNaK*Nai))" Description="mV"  />
+<Expression Name="VK1"   Formula="(R*Kelvin/Faraday)*log(Ko/Ki)" Description="mV"  />
+<Constant Name="VKp"    Value="7.488" Description="mV"  />
+<Constant Name="Vb"    Value="59.87" Description="mV"  />
+
+<!--Tran time rescaling-->
+<Parameter Name="alpha"  DefaultValue="1.0"  Description=""  />
+<Parameter Name="beta"  DefaultValue="1.0"  Description=""  />
+<Parameter Name="gamma"  DefaultValue="1.0"  Description=""  />
+
+<!--activation Expressions-->
+<Expression Name="alphad" Formula="cda*exp(sda1*(V+Vda))/(1+exp(sda2*(V+Vda)))" />
+<Expression Name="betad" Formula="cdb*exp(sdb1*(V+Vdb))/(1+exp(sdb2*(V+Vdb)))" />
+<Expression Name="taud" Formula="alpha/(alphad + betad)" />
+<Expression Name="dinf" Formula="alphad/(alphad + betad)" />
+
+<Expression Name="alphaf" Formula="cfa*exp(sfa1*(V+Vfa))/(1+exp(sfa2*(V+Vfa)))" />
+<Expression Name="betaf" Formula="cfb*exp(sfb1*(V+Vfb))/(1+exp(sfb2*(V+Vfb)))" />
+<Expression Name="tauf" Formula="beta/(alphaf + betaf)" />
+<Expression Name="finf" Formula="alphaf/(alphaf + betaf)" />
+
+<Expression Name="alphax" Formula="cxa*exp(sxa1*(V+Vxa))/(1+exp(sxa2*(V+Vxa)))" />
+<Expression Name="betax" Formula="cxb*exp(sxb1*(V+Vxb))/(1+exp(sxb2*(V+Vxb)))" />
+<Expression Name="taux" Formula="gamma/(alphax + betax)" />
+<Expression Name="xinf" Formula="alphax/(alphax + betax)" />
+
+<Expression Name="xi" Formula="cxi*(exp(sxi*(V+Vxi1))-1)/((V+Vxi1)*exp(sxi*(V+Vxi2)))" />
+
+<Expression Name="alphaK1" Formula="cK1a/(1+exp(sK1a*(V-VK1-59.215)))" />
+<Expression Name="betaK1" Formula="(cK1b*exp(sK1b1*(V-VK1+5.476))+exp(sK1b2*(V-VK1-594.31)))/(1+exp(sK1b3*(V-VK1+4.753)))" />
+
+<Expression Name="K1inf" Formula="alphaK1/(alphaK1 + betaK1)" />
+
+<Expression Name="Kp" Formula="1/(1+exp(sKp*(VKp-V)))" />
+
+<!--current expressions-->
+<Expression Name="IK"  Formula="gK * x * xi* (V - VK)" />
+<Expression Name="IK1"  Formula="gK1 * K1inf* (V - VK1)" />
+<Expression Name="IKp"  Formula="gKp * Kp* (V - VK1)" />
+<Expression Name="Ib"  Formula="gb*(V+Vb)" />
+<Expression Name="f"	Formula="-(IK + IK1 + IKp + Ib)/(gCa * dinf * (V-VCa))" />
+<Expression Name="ICa" Formula="gCa* dinf* f* (V-VCa)" />
+
+<!--activation derivatives-->
+<Expression Name="dinfalpha" Formula="1/(1+exp(-sda2*(V+Vda)))" />
+<Expression Name="dalphad"  Formula="alphad*(sda1-sda2*dinfalpha)" />
+<Expression Name="dinfbeta"  Formula="1/(1+exp(-sdb2*(V+Vdb)))" />
+<Expression Name="dbetad"  Formula="betad*(sdb1-sdb2*dinfbeta)" />
+<Expression Name="ddinfdV" Formula="(taud/alpha)*(dalphad-dinf*(dalphad + dbetad))" />
+
+<Expression Name="dxidV" Formula="(1/(V+Vxi1))*(sxi*cxi/exp(sxi*(V+Vxi2)) - xi)" />
+
+<Expression Name="dalphaK1" Formula="sK1a*alphaK1*(alphaK1/cK1a -1)" />
+<Expression Name="K1infbeta" Formula="1/(1+exp(-sK1b3*(V-VK1+4.753)))" />
+<Expression Name="dbetaK1" Formula="(cK1b*sK1b1*exp(sK1b1*(V-VK1+5.476)) + sK1b2*exp(sK1b2*(V-VK1-594.31)))/(1+exp(sK1b3*(V-VK1+4.753))) - betaK1*sK1b3*K1infbeta" />
+<Expression Name="dK1dV" Formula="(1/(alphaK1+betaK1))*(dalphaK1 - K1inf*(dalphaK1 + dbetaK1))" />
+
+<Expression Name="dKpdV" Formula="sKp*Kp*(1-Kp)" />
+
+<!--vector field expresssions-->
+<Expression Name="dfdt" Formula="(finf - f) / tauf" />
+<Expression Name="dxdt" Formula="(xinf - x) / taux" />
+
+<Expression Name="dFdV" Formula="-gCa*dinf*f-gCa*ddinfdV*f*(V-VCa)-gK*xi*x-gK*dxidV*x*(V-VK)-gK1*K1inf-gK1*dK1dV*(V-VK1)-gKp*Kp-gKp*dKpdV*(V-VK1)-gb" />
+
+<Expression Name="dFdf" Formula="-gCa*dinf*(V-VCa)" />
+
+<Expression Name="dFdx" Formula="-gK*xi*(V-VK)" />
+
+<StateVariable Name="V" Formula="dFdf*dfdt + dFdx*dxdt"
+                            DefaultInitialCondition="-18.79192638" />
+<StateVariable Name="x" Formula="-dFdV*dxdt"
+                            DefaultInitialCondition="-0.1107466403" />
+
+</VectorField>
