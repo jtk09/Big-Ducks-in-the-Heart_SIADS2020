@@ -1,5 +1,5 @@
 # Luo-Rudy1_SIADS2020
-This repository contains AUTO scripts and some printouts for the analysis presented in:
+This repository contains AUTO scripts and some printouts for the analysis presented in the SIAM Journal on Applied Dynamical Sysytems (2020) article:
 "Big Ducks in the Heart: Canard Analysis Can Explain Large Early Afterdepolarizations in Cardiomyocytes"
 
 - Archive_EAD_DesingLuo_dinf contains AUTO scripts for a bifurcation analysis of the desingularized reduced system as well as the .xml used to generate the AUTO C file and the .ode file
